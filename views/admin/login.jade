@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+	if(msg)
+		h1 #{msg}
+	form(method="post",action="/admin/login")
+		input(name="user_name",type="text")
+		br
+		input(name="password",type="password")
+		br
+		button Login
