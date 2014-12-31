@@ -1,3 +1,11 @@
 extends ../layout
 block content
 
+	div(class="container")
+		div(class="row")
+			div(class="col-md-8")
+				ul
+					each data in book_list
+						li #{data.book_title}
+
+			div(class="col-md-4")
