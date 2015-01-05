@@ -1,36 +1,24 @@
-var mongoose = require('mongoose'); 
+var mongoose = require('./mongooseConn'); 
 
 
-function bookService(){
-	var BookSchema = mongoose.Schema({
-		book_name:String,
-		author:String
-	});
-	BookSchema.statics.findByAuthor = function(author_name,cb){
-		this.find({"author":author_name},cb);
+var bookService = function(){
+	var bookSchema = mongoose.Schema({book_name:String,author:String});
+
+	bookSchema.statics.findByAuthor = function(author,cb){
+		console.log(author);
+		//this.find({"author":this.author},cb);
+		cb("",{ "_id" : "ObjectId(\"54a2508ce47f367beb80ca5b\")", "author" : "Allen", "book_name" : "book1" });
 	}
 
-	this.getAllBooks = function(){
-		var o = {};
-		for (var i = 0; i < 10; i++) {
-			o[i] = {"book_title" : "title_"+i};
-		};
-		return o;
-	}
+	
 
-	this.getBookByID = function(book_id,callback){
-		var db = mongoose.createConnection('localhost','book');
-		db.on('error',console.error.bind(console,'连接错误:'));
-		db.once('open',function(){
-			//一次打开记录
-			console.log("open db connection");
-			var books = db.model('books',BookSchema);
-
-			books.findByAuthor("Allen1", function(err, d) {
-				callback(d)
-			});
+	this.getBookByAuthor = function(author,cb){
+		var model_book = mongoose.model('books', bookSchema);
+		model_book.findByAuthor(author, function (err, animals) {
+			console.log(animals);
 		});
 	}
 }
+
 
 module.exports = new bookService();
